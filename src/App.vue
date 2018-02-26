@@ -1,8 +1,11 @@
 <template>
   <div id="app">
-    <draggable @dragging="onDrag" @dragstop="drop">
-      <div :class="{'roman': canDrop}"></div>
-    </draggable>
+    <div class="draggable_wrapper">
+      <draggable :parent="'.draggable_wrapper'" @dragging="onDrag" @dragstop="drop">
+        <div :class="{'roman': canDrop, 'element': true}">
+        </div>
+      </draggable>
+    </div>
     <div class="drop">
 
     </div>
@@ -10,7 +13,7 @@
 </template>
 
 <script>
-import VueDraggableResizable from 'vue-draggable-resizable'
+import VueDraggableResizable from './components/vue-draggable-resizable.vue'
 
 export default {
   name: 'app',
@@ -23,8 +26,8 @@ export default {
     }
   },
   methods: {
-    onDrag(x, y){
-      if(this.isInside(x, y)){
+    onDrag(x, y, event){
+      if(this.isInside(event.clientX, event.clientY, '.drop')){
         this.canDrop = true;
       }else{
         this.canDrop = false; 
@@ -33,8 +36,8 @@ export default {
     drop(x, y){
       console.log(x, y);
     },
-    isInside(x, y){
-      let dropElem = document.querySelector('.drop');
+    isInside(x, y, selector){
+      let dropElem = document.querySelector(selector);
       let dropWidth = dropElem.offsetWidth;
       let dropHeight = dropElem.offsetHeight;
       let {left, top} = dropElem.getBoundingClientRect();
@@ -50,13 +53,23 @@ export default {
 
 <style>
   .roman{
-    width: 100%;
-    height: 100%;
-    background: red;
+    border:2px solid red !important;
   }
   .drop{
     height: 600px;
     width: 600px;
     background: paleturquoise;
+  }
+
+  .element{
+    width: 100%;
+    height: 100%;
+    border: 2px solid green;
+  }
+
+  .draggable_wrapper{
+    height: 800px;
+    width: 800px;
+    background: lightcoral;
   }
 </style>
