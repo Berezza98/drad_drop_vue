@@ -128,6 +128,9 @@ export default {
     },
     maximize: {
       type: Boolean, default: false
+    },
+    dropZone: {
+      type: String, default: false
     }
   },
 
@@ -386,7 +389,12 @@ export default {
           this.top = (Math.round(this.elmY / this.grid[1]) * this.grid[1])
         }
 
-        this.$emit('dragging', this.left, this.top, e)
+        this.$emit('dragging', this.left, this.top, e);
+        if(this.isInside(e.clientX, e.clientY, this.dropZone)){
+          this.$el.classList.add('insideDropZone');
+        }else{
+          this.$el.classList.remove('insideDropZone');
+        }
       }
     },
     handleUp: function (e) {
@@ -402,6 +410,17 @@ export default {
 
       this.elmX = this.left
       this.elmY = this.top
+    },
+    isInside(x, y, selector){
+      let dropElem = document.querySelector(selector);
+      let dropWidth = dropElem.offsetWidth;
+      let dropHeight = dropElem.offsetHeight;
+      let {left, top} = dropElem.getBoundingClientRect();
+      if(y < top + dropHeight && y > top && x < left + dropWidth && x > left){
+          return true;
+      }else{
+        return false;
+      }
     }
   },
 

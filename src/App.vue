@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <div class="draggable_wrapper">
-      <draggable :parent="'.draggable_wrapper'" @dragging="onDrag" @dragstop="drop">
-        <div :class="{'roman': canDrop, 'element': true}">
-        </div>
+      <draggable :parent="'body'" :drop-zone="'.drop'" @dragging="onDrag" @dragstop="drop">
       </draggable>
     </div>
     <div class="drop">
@@ -27,25 +25,10 @@ export default {
   },
   methods: {
     onDrag(x, y, event){
-      if(this.isInside(event.clientX, event.clientY, '.drop')){
-        this.canDrop = true;
-      }else{
-        this.canDrop = false; 
-      }
+
     },
     drop(x, y){
       console.log(x, y);
-    },
-    isInside(x, y, selector){
-      let dropElem = document.querySelector(selector);
-      let dropWidth = dropElem.offsetWidth;
-      let dropHeight = dropElem.offsetHeight;
-      let {left, top} = dropElem.getBoundingClientRect();
-      if(y < top + dropHeight && y > top && x < left + dropWidth && x > left){
-          return true;
-      }else{
-        return false;
-      }
     }
   }
 }
@@ -64,12 +47,15 @@ export default {
   .element{
     width: 100%;
     height: 100%;
-    border: 2px solid green;
   }
 
   .draggable_wrapper{
     height: 800px;
     width: 800px;
     background: lightcoral;
+  }
+
+  .insideDropZone{
+    border: 2px solid green;
   }
 </style>
