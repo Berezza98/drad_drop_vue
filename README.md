@@ -1,6 +1,6 @@
 # Vue.js  Vue-draggable-resizable changings
 
-## Changes in Vue-draggable-resizable module:
+## Changes in Vue-draggable-resizable component:
 
 1. Dragging handler can accept one more argument - event
 ```javascript
@@ -21,5 +21,6 @@
     <vue-draggable-resizable :parent="'body'" :drop-zone="'.drop'"></vue-draggable-resizable>
 ```
 4. CSS class `insideDropZone` will be added when droppable element is situated abowe `drop-zone` 
-
+5. Added `initialPosition` property inside component
+6. Added new papam `returnToStartPosition` for set initial position of element if element will be dropped not inside `drop-zone`
 

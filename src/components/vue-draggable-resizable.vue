@@ -7,7 +7,8 @@
       resizable: resizable,
       active: enabled,
       dragging: dragging,
-      resizing: resizing
+      resizing: resizing,
+      insideDropZone: insideDropZone
     }"
     @mousedown.stop="elmDown"
     @dblclick="fillParent"
@@ -131,6 +132,9 @@ export default {
     },
     dropZone: {
       type: String, default: false
+    },
+    returnToStartPosition: {
+      type: Boolean, default: false, require: false
     }
   },
 
@@ -183,7 +187,13 @@ export default {
       dragging: false,
       enabled: this.active,
       handle: null,
-      zIndex: this.z
+      zIndex: this.z,
+      insideDropZone: false,
+      firstTime: true,
+      initialPosition: {
+        x: null,
+        y: null
+      }
     }
   },
 
@@ -389,25 +399,40 @@ export default {
           this.top = (Math.round(this.elmY / this.grid[1]) * this.grid[1])
         }
 
-        this.$emit('dragging', this.left, this.top, e);
-        if(this.isInside(e.clientX, e.clientY, this.dropZone)){
-          this.$el.classList.add('insideDropZone');
-        }else{
-          this.$el.classList.remove('insideDropZone');
+        if(this.firstTime){
+          this.initialPosition = {
+            x: this.left,
+            y: this.top
+          };
+
+          this.firstTime = false;
         }
+
+        if(this.isInside(e.clientX, e.clientY, this.dropZone)){
+          this.insideDropZone = true;
+        }else{
+          this.insideDropZone = false;
+        }
+        this.$emit('dragging', this.left, this.top, e);
       }
     },
     handleUp: function (e) {
+      this.firstTime = true;
       this.handle = null
       if (this.resizing) {
         this.resizing = false
         this.$emit('resizestop', this.left, this.top, this.width, this.height)
       }
       if (this.dragging) {
-        this.dragging = false
-        this.$emit('dragstop', this.left, this.top)
+        this.dragging = false;
+        if(!this.isInside(this.left, this.top, this.dropZone)){
+          console.log('element must cloned');
+          this.left = this.initialPosition.x;
+          this.top = this.initialPosition.y;
+        }
+        this.$emit('dragstop', this.left, this.top);
       }
-
+      
       this.elmX = this.left
       this.elmY = this.top
     },

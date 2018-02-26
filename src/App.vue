@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="draggable_wrapper">
-      <draggable :parent="'body'" :drop-zone="'.drop'" @dragging="onDrag" @dragstop="drop">
+      <draggable :parent="'body'" class="bor" :drop-zone="'.drop'" @dragging="onDrag" @dragstop="drop">
       </draggable>
     </div>
     <div class="drop">
@@ -28,7 +28,7 @@ export default {
 
     },
     drop(x, y){
-      console.log(x, y);
+
     }
   }
 }
@@ -57,5 +57,9 @@ export default {
 
   .insideDropZone{
     border: 2px solid green;
+  }
+
+  .bor{
+    background: indigo;
   }
 </style>
