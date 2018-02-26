@@ -425,14 +425,14 @@ export default {
       }
       if (this.dragging) {
         this.dragging = false;
-        if(!this.isInside(this.left, this.top, this.dropZone)){
+        if(!this.isInside(this.left, this.top, this.dropZone) && this.returnToStartPosition){
           console.log('element must cloned');
           this.left = this.initialPosition.x;
           this.top = this.initialPosition.y;
         }
         this.$emit('dragstop', this.left, this.top);
       }
-      
+
       this.elmX = this.left
       this.elmY = this.top
     },

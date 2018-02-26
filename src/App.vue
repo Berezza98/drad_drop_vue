@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="draggable_wrapper">
-      <draggable :parent="'body'" class="bor" :drop-zone="'.drop'" @dragging="onDrag" @dragstop="drop">
+      <draggable :parent="'body'" class="bor" :return-to-start-position="true" :drop-zone="'.drop'" @dragging="onDrag" @dragstop="drop">
       </draggable>
     </div>
     <div class="drop">
