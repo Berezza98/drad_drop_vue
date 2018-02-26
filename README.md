@@ -20,7 +20,10 @@
 ```html
     <vue-draggable-resizable :parent="'body'" :drop-zone="'.drop'"></vue-draggable-resizable>
 ```
-4. CSS class `insideDropZone` will be added when droppable element is situated abowe `drop-zone` 
+4. CSS class `insideDropZone` will be added when droppable element is situated abowe `drop-zone`
 5. Added `initialPosition` property inside component
-6. Added new papam `returnToStartPosition` for set initial position of element if element will be dropped not inside `drop-zone`
+6. Added new papam `returnToStartPosition`(Boolean) for set initial position of element if element will be dropped not inside `drop-zone`
+```html
+    <vue-draggable-resizable :parent="'body'" :drop-zone="'.drop'" :returnToStartPosition="true"></vue-draggable-resizable>
+```
 
