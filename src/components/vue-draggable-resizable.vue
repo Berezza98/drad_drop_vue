@@ -22,7 +22,10 @@
       :style="{ display: enabled ? 'block' : 'none'}"
       @mousedown.stop.prevent="handleDown(handle, $event)"
     ></div>
-    <slot></slot>
+    <slot name="main"></slot>
+    <div class="cloneElement">
+      <slot name="clone"></slot>
+    </div>
   </div>
 </template>
 
@@ -134,6 +137,9 @@ export default {
       type: String, default: false
     },
     returnToStartPosition: {
+      type: Boolean, default: false, require: false
+    },
+    clone: {
       type: Boolean, default: false, require: false
     }
   },
@@ -425,11 +431,14 @@ export default {
       }
       if (this.dragging) {
         this.dragging = false;
-        if(!this.isInside(this.left, this.top, this.dropZone) && this.returnToStartPosition){
-          console.log('element must cloned');
+        if(this.isInside(e.clientX, e.clientY, this.dropZone) && this.clone){
+          document.querySelector(this.dropZone).appendChild(this.$slots.clone[0].elm);
+        }
+        if(this.returnToStartPosition){
           this.left = this.initialPosition.x;
           this.top = this.initialPosition.y;
         }
+        this.insideDropZone = false;
         this.$emit('dragstop', this.left, this.top);
       }
 
@@ -478,6 +487,9 @@ export default {
   .vdr {
     position: absolute;
     box-sizing: border-box;
+  }
+  .cloneElement{
+    display: none;
   }
   .handle {
     box-sizing: border-box;
