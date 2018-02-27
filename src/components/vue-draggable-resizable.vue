@@ -125,7 +125,7 @@ export default {
       }
     },
     parent: {
-      type: String, default: false
+      type: String, default: ""
     },
     maximize: {
       type: Boolean, default: false

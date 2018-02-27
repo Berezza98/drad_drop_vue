@@ -13,12 +13,12 @@
     }
 ```
 
-2. Parent argument - selector of element(area where we can drag element). (String, optional, defaut = false)
+2. Parent argument - selector of element(area where we can drag element). (String, optional, defaut = "")
 ```html
     <vue-draggable-resizable :parent="'.draggable_wrapper'"></vue-draggable-resizable>
 ```
 
-3. New param `dropZone` - selector of element(area where we can drop element). (String, optional, defaut = false)
+3. New param `dropZone` - selector of element(area where we can drop element). (String, optional, defaut = "")
 ```html
     <vue-draggable-resizable :parent="'body'" :drop-zone="'.drop'"></vue-draggable-resizable>
 ```
