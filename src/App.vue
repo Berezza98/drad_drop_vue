@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="draggable_wrapper">
-      <draggable :parent="'body'" :clone="true" :return-to-start-position="true" :drop-zone="'.drop'" @dragging="onDrag" @dragstop="drop">
+      <draggable :parent="'body'" :clone="true" :return-to-start-position="true" :z="1" :drop-zone="'.drop'" @dragging="onDrag" @dragstop="drop">
         <div slot="main" class="img"></div>
         <draggable slot="clone" :parent="'.drop'" :drop-zone="'.drop'" @dragging="onDrag" @dragstop="drop">
           <div slot="main" class="img"></div>
@@ -48,6 +48,7 @@ export default {
     background: paleturquoise;
     overflow: hidden;
     position: relative;
+    z-index: 0;
   }
 
   .img{
