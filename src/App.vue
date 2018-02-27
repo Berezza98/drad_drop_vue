@@ -1,12 +1,11 @@
 <template>
   <div id="app">
     <div class="draggable_wrapper">
-      <draggable :parent="'body'" :clone="true" :return-to-start-position="true" :z="1" :drop-zone="'.drop'" @dragging="onDrag" @dragstop="drop">
-        <div slot="main" class="img"></div>
-        <draggable slot="clone" :parent="'.drop'" :drop-zone="'.drop'" @dragging="onDrag" @dragstop="drop">
-          <div slot="main" class="img"></div>
-        </draggable>
-      </draggable>
+      <div class="wrap">
+          <draggable :parent="'body'" :return-to-start-position="true" :z="1" :drop-zone="'.drop'" @dropInside="droppedInside" @dragging="onDrag" @dragstop="drop">
+            <div slot="main" class="img"></div>
+          </draggable>
+      </div>
     </div>
     <div class="drop">
 
@@ -33,6 +32,9 @@ export default {
     },
     drop(x, y){
 
+    },
+    droppedInside(){
+      console.log('dropped inside');
     }
   }
 }
@@ -57,6 +59,12 @@ export default {
     outline: none;
     user-select: none;
     background: url('https://i.ytimg.com/vi/1yjlx2LRbYc/hqdefault.jpg');
+  }
+
+  .wrap{
+    background: gold;
+    height: 500px;
+    width: 500px;
   }
 
   .element{

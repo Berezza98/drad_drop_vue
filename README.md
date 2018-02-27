@@ -12,29 +12,29 @@
       }
     }
 ```
-2. Parent argument - selector of element(area where we can drag element) String
+
+2. Parent argument - selector of element(area where we can drag element). (String, optional, defaut = false)
 ```html
     <vue-draggable-resizable :parent="'.draggable_wrapper'"></vue-draggable-resizable>
 ```
-3. New param dropZone - selector of element(area where we can drop element) String
+
+3. New param `dropZone` - selector of element(area where we can drop element). (String, optional, defaut = false)
 ```html
     <vue-draggable-resizable :parent="'body'" :drop-zone="'.drop'"></vue-draggable-resizable>
 ```
+
 4. CSS class `insideDropZone` will be added when droppable element is situated abowe `drop-zone`
-5. Added `initialPosition` property inside component
-6. Added new papam `returnToStartPosition`(Boolean, optional, defaut = false) for set initial position of element after drop element
+
+5. Added new papam `returnToStartPosition`(Boolean, optional, defaut = false) for set initial position of element after drop element
 ```html
     <vue-draggable-resizable :parent="'body'" :drop-zone="'.drop'" :returnToStartPosition="true"></vue-draggable-resizable>
 ```
-7. Added property `clone`(Boolean, optional, defaut = false) for clonning dragging element into the `drop-zone`
+
+6. Added new param `setParentSizes` for setting sizes of parent block for draggable element. (Boolean, optional, defaut = false)
 ```html
-    <vue-draggable-resizable :clone="true" :parent="'body'" :drop-zone="'.drop'" :returnToStartPosition="true"></vue-draggable-resizable>
+    <vue-draggable-resizable :parent="'body'" :setParentSizes="true" :drop-zone="'.drop'" :returnToStartPosition="true"></vue-draggable-resizable>
 ```
-8. Added two types of slots: `main` - for main content and `clone` for content that will be cloned into the `drop-zone` if property `clone = true`
-```html
-     <draggable :parent="'body'" :clone="true" :return-to-start-position="true" :drop-zone="'.drop'" @dragging="onDrag" @dragstop="drop">
-      <div slot="main">main content</div>
-      <div slot="clone">content for clonning</div>
-    </draggable>
-```
+
+7. New event `dropInside` emits when dragging element have dropped inside `dropZone`
+
 

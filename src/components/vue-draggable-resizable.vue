@@ -22,10 +22,7 @@
       :style="{ display: enabled ? 'block' : 'none'}"
       @mousedown.stop.prevent="handleDown(handle, $event)"
     ></div>
-    <slot name="main"></slot>
-    <div class="cloneElement">
-      <slot name="clone"></slot>
-    </div>
+    <slot></slot>
   </div>
 </template>
 
@@ -134,12 +131,12 @@ export default {
       type: Boolean, default: false
     },
     dropZone: {
-      type: String, default: false
+      type: String, default: ""
     },
     returnToStartPosition: {
       type: Boolean, default: false, require: false
     },
-    clone: {
+    setParentSizes: {
       type: Boolean, default: false, require: false
     }
   },
@@ -174,6 +171,11 @@ export default {
     this.elmY = parseInt(this.$el.style.top)
     this.elmW = this.$el.offsetWidth || this.$el.clientWidth
     this.elmH = this.$el.offsetHeight || this.$el.clientHeight
+    
+    if(this.setParentSizes){
+      this.width = this.$el.parentNode.offsetWidth
+      this.height = this.$el.parentNode.offsetHeight
+    }
 
     this.reviewDimensions()
   },
@@ -195,11 +197,7 @@ export default {
       handle: null,
       zIndex: this.z,
       insideDropZone: false,
-      firstTime: true,
-      initialPosition: {
-        x: null,
-        y: null
-      }
+      firstTime: true
     }
   },
 
@@ -405,16 +403,7 @@ export default {
           this.top = (Math.round(this.elmY / this.grid[1]) * this.grid[1])
         }
 
-        if(this.firstTime){
-          this.initialPosition = {
-            x: this.left,
-            y: this.top
-          };
-
-          this.firstTime = false;
-        }
-
-        if(this.isInside(e.clientX, e.clientY, this.dropZone)){
+        if(this.isInside(e.clientX, e.clientY)){
           this.insideDropZone = true;
         }else{
           this.insideDropZone = false;
@@ -431,22 +420,24 @@ export default {
       }
       if (this.dragging) {
         this.dragging = false;
-        if(this.isInside(e.clientX, e.clientY, this.dropZone) && this.clone){
-          document.querySelector(this.dropZone).appendChild(this.$slots.clone[0].elm);
-        }
+
         if(this.returnToStartPosition){
-          this.left = this.initialPosition.x;
-          this.top = this.initialPosition.y;
+          this.left = 0;
+          this.top = 0;
         }
+
         this.insideDropZone = false;
+        if(this.isInside(e.clientX, e.clientY)){
+          this.$emit('dropInside', this.left, this.top);
+        }
         this.$emit('dragstop', this.left, this.top);
       }
 
       this.elmX = this.left
       this.elmY = this.top
     },
-    isInside(x, y, selector){
-      let dropElem = document.querySelector(selector);
+    isInside(x, y){
+      let dropElem = document.querySelector(this.dropZone);
       let dropWidth = dropElem.offsetWidth;
       let dropHeight = dropElem.offsetHeight;
       let {left, top} = dropElem.getBoundingClientRect();
